@@ -8,8 +8,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 
-import static com.acme.dbo.txlog.ConsoleSaver.flushInt;
-import static com.acme.dbo.txlog.ConsoleSaver.flushString;
+import static com.acme.dbo.txlog.Facade.*;
+
 
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     //region given
@@ -34,7 +34,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         Facade.log(2);
         Facade.log("str 2");
         Facade.log(0);
-        flushInt();
+        flush();
         //endregion
 
         //region then
@@ -102,7 +102,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         Facade.log("str 3");
         Facade.log("str 3");
         Facade.log("str 3");
-        flushString();
+        flush();
         //endregion
 
         //region then
