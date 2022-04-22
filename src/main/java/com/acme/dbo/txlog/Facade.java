@@ -14,8 +14,7 @@ public class Facade {
     public static void log(int message) {
         if (stringAccumulationStarted)
             flush();
-        intAccumulator += message;
-        intAccumulationStarted = true;
+        accumulateInteger(message);
     }
 
     public static void log(byte message) {
@@ -48,20 +47,43 @@ public class Facade {
 
     private static void flushInt(){
         saveDecoratedMessage(intAccumulator);
-        intAccumulator = 0;
-        intAccumulationStarted = false;
+        dropIntegerAccumulator();
     }
     private static void flushString(){
         String stringWithCount = stringAccumulator == 1? accumulatedString : accumulatedString + " (x" + stringAccumulator + ")";
         saveDecoratedMessage(stringWithCount);;
-        accumulatedString = "";
-        stringAccumulator = 0;
-        stringAccumulationStarted = false;
+        dropStringAccumulator();
+    }
+
+    private static void accumulateInteger(int message) {
+        modifyIntegerAccumulatorParameters(message, true);
+    }
+
+    private static void dropIntegerAccumulator(){
+        modifyIntegerAccumulatorParameters(0, false);
     }
 
     private static void accumulateString(String message) {
+        modifyStringAccumulatorParameters(message, true);
+    }
+
+    private static void dropStringAccumulator() {
+        modifyStringAccumulatorParameters("", false);
+    }
+
+    private static void modifyIntegerAccumulatorParameters(int message, boolean accumulationStarted) {
+        intAccumulationStarted = accumulationStarted;
+        if (accumulationStarted)
+            intAccumulator += message;
+        else
+            intAccumulator = message;
+    }
+    private static void modifyStringAccumulatorParameters(String message, boolean accumulationStarted) {
         accumulatedString = message;
-        stringAccumulator++;
-        stringAccumulationStarted = true;
+        stringAccumulationStarted = accumulationStarted;
+        if (accumulationStarted)
+            stringAccumulator++;
+        else
+            stringAccumulator = 0;
     }
 }
