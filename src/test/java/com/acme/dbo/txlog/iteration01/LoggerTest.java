@@ -8,6 +8,9 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import static com.acme.dbo.txlog.ConsoleSaver.flushInt;
+import static com.acme.dbo.txlog.ConsoleSaver.flushString;
+
 public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     //region given
     @Before
@@ -26,8 +29,11 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
     public void shouldLogInteger() throws IOException {
         //region when
         Facade.log(1);
+        flushInt();
         Facade.log(0);
+        flushInt();
         Facade.log(-1);
+        flushInt();
         //endregion
 
         //region then
@@ -75,6 +81,7 @@ public class LoggerTest implements SysoutCaptureAndAssertionAbility {
         //region when
         Facade.log("test string 1");
         Facade.log("other str");
+        flushString();
         //endregion
 
         //region then
